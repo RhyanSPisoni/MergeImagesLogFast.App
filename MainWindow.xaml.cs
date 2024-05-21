@@ -37,7 +37,7 @@ namespace MergeImagesLogFast
             var folderDialog = new OpenFileDialog
             {
                 Title = "Select Folder",
-                Filter = "Folders|*.none",
+                //Filter = "Folders|*.none",
                 CheckFileExists = false,
                 CheckPathExists = true,
                 FileName = "Folder Selection"

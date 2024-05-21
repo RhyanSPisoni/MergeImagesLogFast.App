@@ -5,17 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MergeImagesLogFast"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="MergeImagensLogFast.App"
         MinHeight="600"
         MinWidth="1100">
 
     <Grid Background="#FF331D1D">
-        <Grid Name="LeftGrid" Width="400" Background="BlueViolet" HorizontalAlignment="Left">
-            <Button VerticalAlignment="Top" x:Name="btn_SearchFolder" Content="Buscar Pasta" Height="20" Background="Chartreuse" Click="btn_SearchFolder_Click"/>
-            <ListView VerticalAlignment="Bottom" MinHeight="250" x:Name="ListViewImagens" Background="Coral"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- LeftGrid -->
+            <ColumnDefinition Width="auto"/>
+            <!-- CenterGrid -->
+            <ColumnDefinition Width="*"/>
+            <!-- RightGrid -->
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="LeftGrid" Grid.Column="0" MaxWidth="360" Margin="5" Background="BlueViolet" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Margin="5" x:Name="btn_SearchFolder" Content="Buscar Pasta" Height="30" Width="100" Background="Chartreuse" Click="btn_SearchFolder_Click"/>
+            <Button Grid.Row="0" Grid.Column="1" Margin="5" x:Name="btn_OtherButton" Content="Outro Botão" Height="30" Width="100" Background="Orange"/>
+            <ListView Grid.Row="1" Grid.ColumnSpan="2" Width="350" x:Name="ListViewImagens" Background="Coral"/>
         </Grid>
 
-        <Grid Width="150" HorizontalAlignment="Right" Background="DeepSkyBlue">
+        <Grid Name="CenterGrid" Margin="20" Grid.Column="1" MinWidth="500" Width="auto" HorizontalAlignment="Center" Background="PaleGoldenrod">
+
+            <Label Content="LogFast.dev" Background="Turquoise" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20"/>
+
+            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="450" Background="Gold">
+
+                <Grid Margin="5" MinWidth="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Nome do padrão do Arquivo: "/>
+                    <TextBox Grid.Column="1" Width="200" Height="20"/>
+                </Grid>
+
+                <Grid Margin="5" MinWidth="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Altura: "/>
+                    <TextBox Grid.Column="1" Width="100" Height="20"/>
+                </Grid>
+
+                <Grid Margin="5" MinWidth="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Largura: "/>
+                    <TextBox Grid.Column="1" Width="100" Height="20"/>
+                </Grid>
+
+                <Grid Margin="5" MinWidth="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="61*"/>
+                        <ColumnDefinition Width="39*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Content="Vertical"  IsChecked="True" Grid.ColumnSpan="2"/>
+                    <CheckBox Content="Horizontal" IsChecked="False" Grid.ColumnSpan="2" Margin="0,15,0,0" Grid.RowSpan="2"/>
+                </Grid>
+            </WrapPanel>
+        </Grid>
+
+        <Grid Name="RightGrid" Grid.Column="2" Width="250" HorizontalAlignment="Right" Background="DeepSkyBlue">
 
         </Grid>
     </Grid>
