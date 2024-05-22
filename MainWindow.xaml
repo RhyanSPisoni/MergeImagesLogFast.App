@@ -7,19 +7,19 @@
         mc:Ignorable="d"
         Title="MergeImagensLogFast.App"
         MinHeight="600"
-        MinWidth="1100">
+        MinWidth="1100" Width="1920" Height="1080">
 
     <Grid Background="#FF331D1D">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <!-- LeftGrid -->
             <ColumnDefinition Width="auto"/>
             <!-- CenterGrid -->
             <ColumnDefinition Width="*"/>
             <!-- RightGrid -->
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Name="LeftGrid" Grid.Column="0" MaxWidth="360" Margin="5" Background="BlueViolet" HorizontalAlignment="Left">
+        <Grid Grid.Column="0" Name="LeftGrid" MaxWidth="360" Margin="0,5,0,5" Background="BlueViolet" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -32,14 +32,20 @@
 
             <Button Grid.Row="0" Grid.Column="0" Margin="5" x:Name="btn_SearchFolder" Content="Buscar Pasta" Height="30" Width="100" Background="Chartreuse" Click="btn_SearchFolder_Click"/>
             <Button Grid.Row="0" Grid.Column="1" Margin="5" x:Name="btn_OtherButton" Content="Outro Botão" Height="30" Width="100" Background="Orange"/>
-            <ListView Grid.Row="1" Grid.ColumnSpan="2" Width="350" x:Name="ListViewImagens" Background="Coral"/>
+            <Label Grid.Row="1" Content="Imagens abaixo" VerticalAlignment="Top" Foreground="White"/>
+            <ListView Grid.Row="2" Grid.ColumnSpan="2" Margin="0, 30, 0, 0" Width="250" x:Name="ListViewImagens" Background="Coral" SelectionChanged="ListViewImagens_SelectionChanged"/>
         </Grid>
 
-        <Grid Name="CenterGrid" Margin="20" Grid.Column="1" MinWidth="500" Width="auto" HorizontalAlignment="Center" Background="PaleGoldenrod">
+        <Grid Name="CenterGrid" Margin="0,20,0,20" Grid.Column="1" Width="auto" HorizontalAlignment="Center" Background="PaleGoldenrod">
 
-            <Label Content="LogFast.dev" Background="Turquoise" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="450" Background="Gold">
+            <Label Grid.Row="0" Content="LogFast.dev" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
+            <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="100" Width="450" Background="Gold" Margin="5">
 
                 <Grid Margin="5" MinWidth="200">
                     <Grid.RowDefinitions>
@@ -52,7 +58,7 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Content="Nome do padrão do Arquivo: "/>
+                    <Label Grid.Column="0" Content="Nome padrão das Imagens: "/>
                     <TextBox Grid.Column="1" Width="200" Height="20"/>
                 </Grid>
 
@@ -68,7 +74,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Content="Altura: "/>
-                    <TextBox Grid.Column="1" Width="100" Height="20"/>
+                    <TextBox Grid.Column="1" Width="100" Height="20" TextChanged="TextBox_TextChanged" PreviewTextInput="PreviewTextInputForInt"/>
                 </Grid>
 
                 <Grid Margin="5" MinWidth="200">
@@ -83,7 +89,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Content="Largura: "/>
-                    <TextBox Grid.Column="1" Width="100" Height="20"/>
+                    <TextBox Grid.Column="1" Width="100" Height="20" PreviewTextInput="PreviewTextInputForInt"/>
                 </Grid>
 
                 <Grid Margin="5" MinWidth="100">
@@ -96,14 +102,26 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Row="0" Content="Vertical"  IsChecked="True" Grid.ColumnSpan="2"/>
-                    <CheckBox Content="Horizontal" IsChecked="False" Grid.ColumnSpan="2" Margin="0,15,0,0" Grid.RowSpan="2"/>
+                    <RadioButton Grid.Row="0" Content="Vertical" IsChecked="True" Grid.ColumnSpan="2"/>
+                    <RadioButton Grid.Row="1" Content="Horizontal" IsChecked="False" Grid.ColumnSpan="2" Margin="0,5"  Grid.RowSpan="2"/>
+
                 </Grid>
+
             </WrapPanel>
+
+            <Grid Grid.Row="2" >
+                <Button Width="100" Height="30" Content="Mesclar"/>
+            </Grid>
         </Grid>
 
-        <Grid Name="RightGrid" Grid.Column="2" Width="250" HorizontalAlignment="Right" Background="DeepSkyBlue">
+        <Grid Name="RightGrid" Grid.Column="2" HorizontalAlignment="Left" Background="DeepSkyBlue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
+            <Button Grid.Row="0" Content="Olhar Pasta" Width="100" Height="50" VerticalAlignment="Top" Margin="5"/>
+            <ListView Grid.Row="1" Width="250" Background="Coral"/>
         </Grid>
     </Grid>
 </Window>
