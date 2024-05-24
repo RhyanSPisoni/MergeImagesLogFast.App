@@ -9,6 +9,10 @@ namespace MergeImagesLogFast
     /// </summary>
     public partial class App : Application
     {
+        private void Button_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
     }
 
 }

@@ -4,6 +4,30 @@
              xmlns:local="clr-namespace:MergeImagesLogFast"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="BorderBrush" Value="AliceBlue"/>
+
+                <Setter Property="FontFamily" Value="Georgia"/>
+                <Setter Property="FontSize" Value="15"/>
+
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Width" Value="100"/>
+
+
+                <Setter Property="Background" Value="#161c2a"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+            <Style TargetType="RadioButton">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:MergeImagesLogFast"
         mc:Ignorable="d"
         Title="MergeImagensLogFast.App"
-        Width="1100" Height="600" WindowStartupLocation="CenterScreen">
+        Width="1100" Height="600" WindowStartupLocation="CenterScreen"
+        Background="#FF222632" WindowStyle="ThreeDBorderWindow">
 
-    <Grid Background="#FF331D1D">
+    <Grid>
         <Grid.ColumnDefinitions>
             <!-- LeftGrid -->
             <ColumnDefinition Width="auto"/>
@@ -18,26 +19,30 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Name="LeftGrid" MaxWidth="360" Margin="0,5,0,5" Background="BlueViolet" HorizontalAlignment="Center">
+        <Grid Grid.Column="0" Name="LeftGrid" MaxWidth="360" Margin="0,5,0,5" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Center" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Margin="5" x:Name="btn_SearchFolder" Content="Buscar Pasta" Height="30" Width="100" Background="Chartreuse" Click="btn_SearchFolder_Click"/>
-            <Button Grid.Row="0" Grid.Column="1" Margin="5" x:Name="btn_OtherButton" Content="Outro Botão" Height="30" Width="100" Background="Orange"/>
-            <Label Grid.Row="1" Content="Imagens abaixo" VerticalAlignment="Top" Foreground="White"/>
-            <ListView Grid.Row="2" Grid.ColumnSpan="2" Margin="0, 30, 0, 0" Width="250" x:Name="ListViewImagens" Background="Coral" SelectionChanged="ListViewImagens_SelectionChanged"/>
+                <Button Grid.Row="0" Grid.Column="0" Margin="5" x:Name="btn_SearchFolder" Content="Buscar Pasta" Click="btn_SearchFolder_Click" />
+                <Button Grid.Row="0" Grid.Column="1" Margin="5" x:Name="btn_OtherButton" Content="Outro Botão"/>
+            </Grid>
+
+            <Label Grid.Row="1" Content="Imagens para Mesclar" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+            <ListView Grid.Row="2" Width="250" Background="#161c2a" x:Name="ListViewImagens" SelectionChanged="ListViewImagens_SelectionChanged"/>
         </Grid>
 
-        <Grid Name="CenterGrid" Margin="20" Grid.Column="1" Background="PaleGoldenrod">
-
-            <Grid Background="SkyBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Name="CenterGrid" Margin="20" Grid.Column="1" Background="#FF161C2A">
+            <Image Source="/logo.png"  Margin="0,20,0,0" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="top"/>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
@@ -49,7 +54,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Grid.Column="0" Width="300" Margin="5" Background="DarkKhaki">
+                <Grid Grid.Row="0" Grid.Column="0" Margin="5" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -60,37 +65,51 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Content="Altura:" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Altura:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="Largura:" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Largura:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 </Grid>
 
-                <Grid Grid.Row="0" Grid.Column="1" Width="100" Margin="5" Background="DarkKhaki" VerticalAlignment="Center">
+                <Grid Grid.Row="0" Grid.Column="1"  Margin="5" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <RadioButton Grid.Row="0" Content="Vertical"/>
+                    <RadioButton Grid.Row="0" Content="Vertical" IsChecked="True"/>
                     <RadioButton Grid.Row="1" Content="Horizontal"/>
                 </Grid>
 
-                <Grid Grid.Row="2" Grid.ColumnSpan="2" Width="100" Margin="5" Background="DarkKhaki" VerticalAlignment="Center">
+                <Grid Grid.Row="1" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Lotes:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1" Width="100" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.ColumnSpan="2" Width="100" Margin="5" VerticalAlignment="Center">
                     <Button Content="Mesclar" FontSize="15"/>
                 </Grid>
             </Grid>
         </Grid>
 
-        <Grid Name="RightGrid" Grid.Column="2" HorizontalAlignment="Left" Background="DeepSkyBlue">
+        <Grid Name="RightGrid" Grid.Column="2" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Content="Olhar Pasta" Width="100" Height="50" VerticalAlignment="Top" Margin="5"/>
-            <ListView Grid.Row="1" Width="250" Background="Coral"/>
+            <Button Grid.Row="0" Content="Olhar Mesclados" Width="130" VerticalAlignment="Top" Margin="10"/>
+
+            <Label Grid.Row="1" Content="Imagens Prontas" HorizontalAlignment="Center" Foreground="White"/>
+            <ListView Grid.Row="2" Width="250" Background="#FF161C2A" BorderBrush="White"/>
         </Grid>
     </Grid>
 </Window>
