@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:MergeImagesLogFast"
         mc:Ignorable="d"
         Title="MergeImagensLogFast.App"
-        MinHeight="600"
-        MinWidth="1100" Width="1920" Height="1080">
+        Width="1100" Height="600" WindowStartupLocation="CenterScreen">
 
     <Grid Background="#FF331D1D">
         <Grid.ColumnDefinitions>
@@ -36,81 +35,51 @@
             <ListView Grid.Row="2" Grid.ColumnSpan="2" Margin="0, 30, 0, 0" Width="250" x:Name="ListViewImagens" Background="Coral" SelectionChanged="ListViewImagens_SelectionChanged"/>
         </Grid>
 
-        <Grid Name="CenterGrid" Margin="0,20,0,20" Grid.Column="1" Width="auto" HorizontalAlignment="Center" Background="PaleGoldenrod">
+        <Grid Name="CenterGrid" Margin="20" Grid.Column="1" Background="PaleGoldenrod">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid Background="SkyBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Content="LogFast.dev" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
-            <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="100" Width="450" Background="Gold" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-                <Grid Margin="5" MinWidth="200">
+                <Grid Grid.Row="0" Grid.Column="0" Width="300" Margin="5" Background="DarkKhaki">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Altura:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Largura:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1" Width="100" Margin="5" Background="DarkKhaki" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Column="0" Content="Nome padrão das Imagens: "/>
-                    <TextBox Grid.Column="1" Width="200" Height="20"/>
+                    <RadioButton Grid.Row="0" Content="Vertical"/>
+                    <RadioButton Grid.Row="1" Content="Horizontal"/>
                 </Grid>
 
-                <Grid Margin="5" MinWidth="200">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Column="0" Content="Altura: "/>
-                    <TextBox Grid.Column="1" Width="100" Height="20" TextChanged="TextBox_TextChanged" PreviewTextInput="PreviewTextInputForInt"/>
+                <Grid Grid.Row="2" Grid.ColumnSpan="2" Width="100" Margin="5" Background="DarkKhaki" VerticalAlignment="Center">
+                    <Button Content="Mesclar" FontSize="15"/>
                 </Grid>
-
-                <Grid Margin="5" MinWidth="200">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Column="0" Content="Largura: "/>
-                    <TextBox Grid.Column="1" Width="100" Height="20" PreviewTextInput="PreviewTextInputForInt"/>
-                </Grid>
-
-                <Grid Margin="5" MinWidth="100">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="61*"/>
-                        <ColumnDefinition Width="39*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <RadioButton Grid.Row="0" Content="Vertical" IsChecked="True" Grid.ColumnSpan="2"/>
-                    <RadioButton Grid.Row="1" Content="Horizontal" IsChecked="False" Grid.ColumnSpan="2" Margin="0,5"  Grid.RowSpan="2"/>
-
-                </Grid>
-
-            </WrapPanel>
-
-            <Grid Grid.Row="2" >
-                <Button Width="100" Height="30" Content="Mesclar"/>
             </Grid>
         </Grid>
 
