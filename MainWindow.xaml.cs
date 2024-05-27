@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Point = System.Drawing.Point;
+using static System.Net.WebRequestMethods;
 
 namespace MergeImagesLogFast
 {
@@ -19,11 +20,6 @@ namespace MergeImagesLogFast
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("dasdsa");
         }
 
         private void btn_SearchFolder_Click(object sender, RoutedEventArgs e)
@@ -43,8 +39,20 @@ namespace MergeImagesLogFast
                 PopulateListView(selectedPath);
 
                 GlobalVariables.pathIni = selectedPath;
+
+                if (GlobalVariables.FilesImagens.Count() > 2)
+                {
+                    BMesclar.IsEnabled = true;
+                    BCalcularLote.IsEnabled = true;
+                }
+                else
+                {
+                    BMesclar.IsEnabled = true;
+                    BCalcularLote.IsEnabled = false;
+                }
             }
         }
+
         private void PopulateListView(string folderPath)
         {
             LVImagens.Items.Clear();
@@ -54,6 +62,8 @@ namespace MergeImagesLogFast
             {
                 var files = Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories)
                                      .Where(s => s.EndsWith(".jpg") || s.EndsWith(".png"));
+
+                Array.Sort(files.ToArray(), CompareFileNamesNumerically);
 
                 GlobalVariables.FilesImagens = files;
 
@@ -115,9 +125,21 @@ namespace MergeImagesLogFast
                 return;
             }
 
+            // Abrir dialog pasta
+            var folderDialog = new OpenFileDialog
+            {
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Folder"
+            };
+
+            if (folderDialog.ShowDialog() == false)
+                return;
+
+            GlobalVariables.pathOutput = folderDialog.FileName.Replace("Folder", "");
             string NomePadraoImagem = TBNomePadrao.Text;
 
-            bool vertical = true;
+            bool vertical;
 
             if (RB_Vertical.IsChecked == true)
                 vertical = true;
@@ -125,6 +147,22 @@ namespace MergeImagesLogFast
                 vertical = false;
 
             // Agrupa as imagens em lotes
+            List<string[]> groupedImages = AgrupaImagensLotes(imageFiles);
+
+            int grupoImagem = 0;
+            foreach (var imagePaths in groupedImages)
+            {
+                List<Bitmap> images = LoadImages(imagePaths);
+                Bitmap combinedImage = CombineImages(images, vertical);
+                combinedImage.Save($"{folderDialog.FileName.Replace("Folder", "")}\\{NomePadraoImagem}{grupoImagem}.jpg");
+                grupoImagem++;
+            }
+
+            BMesclados.IsEnabled = true;
+        }
+
+        private List<string[]> AgrupaImagensLotes(string[] imageFiles)
+        {
             List<string[]> groupedImages = new List<string[]>();
             int groupSize = Convert.ToInt32(TBLotes.Text);
             int numGroups = (int)Math.Ceiling((double)imageFiles.Length / groupSize);
@@ -137,19 +175,7 @@ namespace MergeImagesLogFast
                 groupedImages.Add(group);
             }
 
-
-            int grupoImagem = 0;
-            foreach (var imagePaths in groupedImages)
-            {
-                List<Bitmap> images = LoadImages(imagePaths);
-
-                Bitmap combinedImage = CombineImages(images, vertical);
-
-                combinedImage.Save($"D:\\Teste\\{NomePadraoImagem}{grupoImagem}.jpg");
-
-                grupoImagem++;
-            }
-
+            return groupedImages;
         }
 
         private Bitmap CombineImages(List<Bitmap> images, bool vertical)
@@ -204,7 +230,66 @@ namespace MergeImagesLogFast
 
         private void BCalcularLote_Click(object sender, RoutedEventArgs e)
         {
+            string[] imageFiles = GlobalVariables.FilesImagens.ToArray();
 
+            List<string[]> groupedImages = new List<string[]>();
+            int groupSize = Convert.ToInt32(TBLotes.Text);
+            int numGroups = (int)Math.Ceiling((double)imageFiles.Length / groupSize);
+            for (int i = 0; i < numGroups; i++)
+            {
+                int groupStartIndex = i * groupSize;
+                int groupEndIndex = Math.Min(groupStartIndex + groupSize, imageFiles.Length);
+                string[] group = new string[groupEndIndex - groupStartIndex];
+                Array.Copy(imageFiles, groupStartIndex, group, 0, group.Length);
+                groupedImages.Add(group);
+            }
+
+
+            int v = 0;
+            string NomePadrao = TBNomePadrao.Text;
+            foreach (var file in groupedImages)
+            {
+                int altura = 0;
+                int largura = 0;
+                foreach (var item in file)
+                {
+                    BitmapImage bitmap = new BitmapImage(new Uri(item));
+
+                    altura += Convert.ToInt32(bitmap.Height);
+                    largura += Convert.ToInt32(bitmap.Width);
+                }
+
+                LVModeloImagem.Items.Add(new ListViewItem { Content = $"{NomePadrao}{v} | H: {altura} W: {largura}" });
+
+                v++;
+            }
+        }
+
+        public int CompareFileNamesNumerically(string a, string b)
+        {
+            // Extrai os números dos nomes de arquivo
+            int numberA = ExtractNumber(Path.GetFileNameWithoutExtension(a));
+            int numberB = ExtractNumber(Path.GetFileNameWithoutExtension(b));
+            // Compara os números extraídos
+            return numberA.CompareTo(numberB);
+        }
+
+        private int ExtractNumber(string s)
+        {
+            // Extrai os dígitos da string
+            string number = "";
+            foreach (char c in s)
+            {
+                if (char.IsDigit(c))
+                    number += c;
+            }
+            // Converte a string de dígitos em um número inteiro
+            return int.Parse(number);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", GlobalVariables.pathOutput);
         }
     }
 }
