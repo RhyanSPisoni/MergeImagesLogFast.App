@@ -1,23 +1,13 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System;
 using System.IO;
-using System;
 using Microsoft.Win32;
-using Path = System.IO.Path;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using Image = SixLabors.ImageSharp.Image;
-using Point = SixLabors.ImageSharp.Point;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using Point = System.Drawing.Point;
 
 namespace MergeImagesLogFast
 {
@@ -58,20 +48,19 @@ namespace MergeImagesLogFast
         private void PopulateListView(string folderPath)
         {
             LVImagens.Items.Clear();
+            GlobalVariables.FilesImagens = new List<string>();
 
             try
             {
-                string[] files = Directory.GetFiles(folderPath);
-                string[] directories = Directory.GetDirectories(folderPath);
+                var files = Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories)
+                                     .Where(s => s.EndsWith(".jpg") || s.EndsWith(".png"));
+
+                GlobalVariables.FilesImagens = files;
 
                 foreach (string file in files)
                 {
+                    LarguraAlturaImagem(file);
                     LVImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(file) });
-                }
-
-                foreach (string directory in directories)
-                {
-                    LVImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(directory) });
                 }
             }
             catch (Exception ex)
@@ -80,106 +69,33 @@ namespace MergeImagesLogFast
             }
         }
 
+        private void LarguraAlturaImagem(string file)
+        {
+            BitmapImage bitmap = new BitmapImage(new Uri(file));
+
+            long AlturaImagem = Convert.ToInt64(bitmap.Height);
+            long LarguraImagem = Convert.ToInt64(bitmap.Width);
+
+            if (GlobalVariables.ImgMaxWidth < AlturaImagem)
+                GlobalVariables.ImgMaxWidth = AlturaImagem;
+
+            if (GlobalVariables.ImgMaxHeight < LarguraImagem)
+                GlobalVariables.ImgMaxHeight = LarguraImagem;
+
+            GlobalVariables.CombineImgMaxHeight += AlturaImagem;
+            GlobalVariables.CombineImgMaxWidth += LarguraImagem;
+
+
+            TBAltura.Text = GlobalVariables.ImgMaxWidth.ToString();
+            TBLargura.Text = GlobalVariables.ImgMaxHeight.ToString();
+
+            LAlturaComb.Content = GlobalVariables.CombineImgMaxHeight.ToString();
+            LLarguraComb.Content = GlobalVariables.CombineImgMaxWidth.ToString();
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-        }
-
-        static void MesclaImagem()
-        {
-            // Diretório onde estão as imagens
-            string inputDir = "./imagens/";
-            // Diretório onde será salva a imagem combinada
-            string outputDir = "./output/";
-
-            // Largura desejada para as imagens
-            int desiredWidth = 900;
-
-            // Lista apenas os arquivos JPEG no diretório e ordena-os numericamente
-            string[] imageFiles = Directory.GetFiles(inputDir, "*.jpg");
-            Array.Sort(imageFiles, CompareFileNamesNumerically);
-
-            // Agrupa as imagens em lotes de 5
-            List<string[]> groupedImages = new List<string[]>();
-            int groupSize = 5;
-            int numGroups = (int)Math.Ceiling((double)imageFiles.Length / groupSize);
-            for (int i = 0; i < numGroups; i++)
-            {
-                int groupStartIndex = i * groupSize;
-                int groupEndIndex = Math.Min(groupStartIndex + groupSize, imageFiles.Length);
-                string[] group = new string[groupEndIndex - groupStartIndex];
-                Array.Copy(imageFiles, groupStartIndex, group, 0, group.Length);
-                groupedImages.Add(group);
-            }
-
-            // Combina as imagens verticalmente
-            int imageIndex = 1;
-            foreach (var group in groupedImages)
-            {
-                int totalHeight = 0;
-                int maxWidth = 0;
-
-                // Carrega as imagens e calcula a altura total e a largura máxima
-                foreach (string imagePath in group)
-                {
-                    using (var image = Image.Load(imagePath))
-                    {
-                        maxWidth = Math.Max(maxWidth, image.Width);
-                        totalHeight += image.Height;
-                    }
-                }
-
-                // Redimensiona as imagens e combina verticalmente
-                using (var outputImage = new Image<Rgba32>(maxWidth, totalHeight))
-                {
-                    int y = 0;
-                    foreach (string imagePath in group)
-                    {
-                        using (var image = Image.Load(imagePath))
-                        {
-                            // Redimensiona a imagem para a largura desejada
-                            image.Mutate(x => x.Resize(desiredWidth, (int)((double)desiredWidth / image.Width * image.Height)));
-
-                            // Combina a imagem na imagem de saída
-                            outputImage.Mutate(x => x.DrawImage(image, new Point(0, y), 1f));
-
-                            // Atualiza a posição y para a próxima imagem
-                            y += image.Height;
-                        }
-                    }
-
-                    // Salva a imagem combinada
-                    string outputPath = Path.Combine(outputDir, $"combined_{imageIndex}.jpg");
-                    outputImage.Save(outputPath);
-                    Console.WriteLine($"Imagem combinada {imageIndex} salva em: {outputPath}");
-                }
-
-                imageIndex++;
-            }
-        }
-
-        // Função de comparação para ordenar os nomes de arquivo numericamente
-        static int CompareFileNamesNumerically(string a, string b)
-        {
-            // Extrai os números dos nomes de arquivo
-            int numberA = ExtractNumber(Path.GetFileNameWithoutExtension(a));
-            int numberB = ExtractNumber(Path.GetFileNameWithoutExtension(b));
-            // Compara os números extraídos
-            return numberA.CompareTo(numberB);
-        }
-
-        // Função auxiliar para extrair números de strings
-        static int ExtractNumber(string s)
-        {
-            // Extrai os dígitos da string
-            string number = "";
-            foreach (char c in s)
-            {
-                if (char.IsDigit(c))
-                    number += c;
-            }
-            // Converte a string de dígitos em um número inteiro
-            return int.Parse(number);
         }
 
         private void PreviewTextInputForInt(object sender, TextCompositionEventArgs e)
@@ -201,17 +117,98 @@ namespace MergeImagesLogFast
             if (path == null)
                 return;
 
-            long valueAltura = Convert.ToInt64(TBAltura.Text);
-            long valueLargura = Convert.ToInt64(TBLargura.Text);
-
-            if (RB_Vertical.IsChecked == true) //Vertical
+            string[] imageFiles = GlobalVariables.FilesImagens.ToArray();
+            if (imageFiles.Length < 2)
             {
-
+                MessageBox.Show("Imagens insuficientes!");
+                return;
             }
-            else //Horizontal
+
+            string NomePadraoImagem = "Combined_";
+
+            bool vertical = true;
+
+            if (RB_Vertical.IsChecked == true)
+                vertical = true;
+            else
+                vertical = false;
+
+            // Agrupa as imagens em lotes
+            List<string[]> groupedImages = new List<string[]>();
+            int groupSize = Convert.ToInt32(TBLotes.Text);
+            int numGroups = (int)Math.Ceiling((double)imageFiles.Length / groupSize);
+            for (int i = 0; i < numGroups; i++)
             {
-
+                int groupStartIndex = i * groupSize;
+                int groupEndIndex = Math.Min(groupStartIndex + groupSize, imageFiles.Length);
+                string[] group = new string[groupEndIndex - groupStartIndex];
+                Array.Copy(imageFiles, groupStartIndex, group, 0, group.Length);
+                groupedImages.Add(group);
             }
+
+
+            int grupoImagem = 0;
+            foreach (var imagePaths in groupedImages)
+            {
+                List<Bitmap> images = LoadImages(imagePaths);
+
+                Bitmap combinedImage = CombineImages(images, vertical);
+
+                combinedImage.Save($"D:\\Teste\\{NomePadraoImagem}{grupoImagem}.jpg");
+
+                grupoImagem++;
+            }
+
+        }
+
+        private Bitmap CombineImages(List<Bitmap> images, bool vertical)
+        {
+            int totalWidth = 0;
+            int totalHeight = 0;
+
+            // Calcula a largura e altura totais
+            foreach (Bitmap image in images)
+            {
+                totalWidth = vertical ? Math.Max(totalWidth, image.Width) : totalWidth + image.Width;
+                totalHeight = vertical ? totalHeight + image.Height : Math.Max(totalHeight, image.Height);
+            }
+
+            // Cria a imagem combinada
+            Bitmap combinedImage = new Bitmap(totalWidth, totalHeight);
+
+            using (Graphics g = Graphics.FromImage(combinedImage))
+            {
+                int currentX = 0;
+                int currentY = 0;
+
+                foreach (Bitmap image in images)
+                {
+                    if (vertical)
+                    {
+                        g.DrawImage(image, new Point(0, currentY));
+                        currentY += image.Height;
+                    }
+                    else
+                    {
+                        g.DrawImage(image, new Point(currentX, 0));
+                        currentX += image.Width;
+                    }
+                }
+            }
+
+            return combinedImage;
+        }
+
+        private List<Bitmap> LoadImages(string[] imagePaths)
+        {
+            List<Bitmap> images = new List<Bitmap>();
+
+            foreach (string path in imagePaths)
+            {
+                images.Add(new Bitmap(path));
+            }
+
+            return images;
         }
 
         private void RB_Vertical_Checked(object sender, RoutedEventArgs e)
