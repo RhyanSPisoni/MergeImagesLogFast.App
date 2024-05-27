@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using Point = System.Drawing.Point;
 using static System.Net.WebRequestMethods;
+using System.Diagnostics;
+using System.Security.Policy;
 
 namespace MergeImagesLogFast
 {
@@ -297,6 +299,22 @@ namespace MergeImagesLogFast
             var donate = new Donate();
             donate.Owner = this;
             donate.Show();
+        }
+
+        private void LVModeloImagem_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void BWeb_Click(object sender, RoutedEventArgs e)
+        {
+            string url = "https://github.com/RhyanSPisoni/MergeImagesLogFast.App";
+            Process.Start("explorer.exe", url);
         }
     }
 }
