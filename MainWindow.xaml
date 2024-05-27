@@ -37,11 +37,11 @@
             </Grid>
 
             <Label Grid.Row="1" Content="Imagens para Mesclar" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
-            <ListView Grid.Row="2" Width="250" Background="#161c2a" x:Name="ListViewImagens" SelectionChanged="ListViewImagens_SelectionChanged"/>
+            <ListView Grid.Row="2" Width="250" Background="#161c2a" x:Name="LVImagens" SelectionChanged="ListViewImagens_SelectionChanged"/>
         </Grid>
 
         <Grid Name="CenterGrid" Margin="20" Grid.Column="1" Background="#FF161C2A">
-            <Image Source="/logo.png"  Margin="0,20,0,0" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="top"/>
+            <Image Source="/logo.jpeg"  Margin="0,30,0,0" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="top"/>
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -65,11 +65,11 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Content="Altura:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Altura Máxima:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="TBAltura" IsEnabled="False" Grid.Row="0" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="Largura:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Largura Máxima:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="TBLargura" Grid.Row="1" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 </Grid>
 
                 <Grid Grid.Row="0" Grid.Column="1"  Margin="5" VerticalAlignment="Center">
@@ -78,8 +78,8 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <RadioButton Grid.Row="0" Content="Vertical" IsChecked="True"/>
-                    <RadioButton Grid.Row="1" Content="Horizontal"/>
+                    <RadioButton Name="RB_Vertical" Grid.Row="0" Content="Vertical" IsChecked="True" Checked="RB_Vertical_Checked"/>
+                    <RadioButton Name="RB_Horizontal" Grid.Row="1" Content="Horizontal" HorizontalAlignment="Right" Width="74" Checked="RB_Horizontal_Checked"/>
                 </Grid>
 
                 <Grid Grid.Row="1" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
@@ -94,7 +94,7 @@
                 </Grid>
 
                 <Grid Grid.Row="2" Grid.ColumnSpan="2" Width="100" Margin="5" VerticalAlignment="Center">
-                    <Button Content="Mesclar" FontSize="15"/>
+                    <Button Name="BMesclar" Content="Mesclar" FontSize="15" Click="BMesclar_Click"/>
                 </Grid>
             </Grid>
         </Grid>

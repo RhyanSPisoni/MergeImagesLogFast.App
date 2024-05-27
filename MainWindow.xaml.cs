@@ -51,11 +51,13 @@ namespace MergeImagesLogFast
             {
                 string selectedPath = Path.GetDirectoryName(folderDialog.FileName);
                 PopulateListView(selectedPath);
+
+                GlobalVariables.pathIni = selectedPath;
             }
         }
         private void PopulateListView(string folderPath)
         {
-            ListViewImagens.Items.Clear();
+            LVImagens.Items.Clear();
 
             try
             {
@@ -64,12 +66,12 @@ namespace MergeImagesLogFast
 
                 foreach (string file in files)
                 {
-                    ListViewImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(file) });
+                    LVImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(file) });
                 }
 
                 foreach (string directory in directories)
                 {
-                    ListViewImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(directory) });
+                    LVImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(directory) });
                 }
             }
             catch (Exception ex)
@@ -191,6 +193,49 @@ namespace MergeImagesLogFast
         private void ListViewImagens_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void BMesclar_Click(object sender, RoutedEventArgs e)
+        {
+            var path = GlobalVariables.pathIni;
+            if (path == null)
+                return;
+
+            long valueAltura = Convert.ToInt64(TBAltura.Text);
+            long valueLargura = Convert.ToInt64(TBLargura.Text);
+
+            if (RB_Vertical.IsChecked == true) //Vertical
+            {
+
+            }
+            else //Horizontal
+            {
+
+            }
+        }
+
+        private void RB_Vertical_Checked(object sender, RoutedEventArgs e)
+        {
+            DesabilitaTextBoxAlturaLargura(0);
+        }
+
+        private void RB_Horizontal_Checked(object sender, RoutedEventArgs e)
+        {
+            DesabilitaTextBoxAlturaLargura(1);
+        }
+
+        private void DesabilitaTextBoxAlturaLargura(int v)
+        {
+            if (v == 0)
+            {
+                TBAltura.IsEnabled = false;
+                TBLargura.IsEnabled = true;
+            }
+            else
+            {
+                TBAltura.IsEnabled = true;
+                TBLargura.IsEnabled = false;
+            }
         }
     }
 }
