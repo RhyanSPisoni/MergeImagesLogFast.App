@@ -35,7 +35,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Row="0" Grid.Column="0" Margin="5" x:Name="btn_SearchFolder" Content="Buscar Pasta" Click="btn_SearchFolder_Click" />
-                <Button Grid.Row="0" Grid.Column="1" Margin="5" x:Name="btn_OtherButton" Content="Outro Botão"/>
+                <Button Grid.Row="0" Grid.Column="1" Margin="5" x:Name="BCalcularLote" Content="Calcular Lote" Click="BCalcularLote_Click"/>
             </Grid>
 
             <Label Grid.Row="1" Content="Imagens para Mesclar" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
@@ -67,11 +67,8 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Content="Altura Máxima:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <TextBox Padding="2, 0, 0, 0" Name="TBAltura" IsEnabled="False" Grid.Row="0" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right" />
-
-                    <Label Grid.Row="1" Grid.Column="0" Content="Largura Máxima:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <TextBox Padding="2, 0, 0, 0" Name="TBLargura" Grid.Row="1" Grid.Column="1" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Nome Padrão da Imagem:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Padding="2, 0, 0, 0" Name="TBNomePadrao" Text="Combined_" Grid.Row="0" Grid.Column="1" Width="250" VerticalAlignment="Center" HorizontalAlignment="Right" />
                 </Grid>
 
                 <Grid Grid.Row="0" Grid.Column="1"  Margin="5" VerticalAlignment="Center">
@@ -80,8 +77,8 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <RadioButton Name="RB_Vertical" Grid.Row="0" Content="Vertical" IsChecked="True" Checked="RB_Vertical_Checked"/>
-                    <RadioButton Name="RB_Horizontal" Grid.Row="1" Content="Horizontal" HorizontalAlignment="Right" Width="74" Checked="RB_Horizontal_Checked"/>
+                    <RadioButton Name="RB_Vertical" Grid.Row="0" Content="Vertical" IsChecked="True"/>
+                    <RadioButton Name="RB_Horizontal" Grid.Row="1" Content="Horizontal" HorizontalAlignment="Right" Width="74" />
                 </Grid>
 
                 <Grid Grid.Row="1" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Width="auto">
@@ -135,7 +132,7 @@
 
             <Button Grid.Row="0" Content="Olhar Mesclados" Width="130" VerticalAlignment="Top" Margin="10"/>
 
-            <Label Grid.Row="1" Content="Imagens Prontas" HorizontalAlignment="Center" Foreground="White"/>
+            <Label Grid.Row="1" Content="Modelo Imagens Prontas" HorizontalAlignment="Center" Foreground="White"/>
             <ListView Grid.Row="2" Width="250" Background="#FF161C2A" BorderBrush="White"/>
         </Grid>
     </Grid>

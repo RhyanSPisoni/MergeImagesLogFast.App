@@ -9,8 +9,6 @@ namespace MergeImagesLogFast
     public static class GlobalVariables
     {
         public static string? pathIni { get; set; } = null;
-        public static long ImgMaxHeight { get; set; } = 0;
-        public static long ImgMaxWidth { get; set; } = 0;
         public static long CombineImgMaxHeight { get; set; } = 0;
         public static long CombineImgMaxWidth { get; set; } = 0;
         public static IEnumerable<string>? FilesImagens { get; set; }

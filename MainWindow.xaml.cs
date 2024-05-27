@@ -59,8 +59,7 @@ namespace MergeImagesLogFast
 
                 foreach (string file in files)
                 {
-                    LarguraAlturaImagem(file);
-                    LVImagens.Items.Add(new ListViewItem { Content = Path.GetFileName(file) });
+                    LVImagens.Items.Add(new ListViewItem { Content = $"{Path.GetFileName(file)} {LarguraAlturaImagem(file)}" });
                 }
             }
             catch (Exception ex)
@@ -69,28 +68,20 @@ namespace MergeImagesLogFast
             }
         }
 
-        private void LarguraAlturaImagem(string file)
+        private string LarguraAlturaImagem(string file)
         {
             BitmapImage bitmap = new BitmapImage(new Uri(file));
 
             long AlturaImagem = Convert.ToInt64(bitmap.Height);
             long LarguraImagem = Convert.ToInt64(bitmap.Width);
 
-            if (GlobalVariables.ImgMaxWidth < AlturaImagem)
-                GlobalVariables.ImgMaxWidth = AlturaImagem;
-
-            if (GlobalVariables.ImgMaxHeight < LarguraImagem)
-                GlobalVariables.ImgMaxHeight = LarguraImagem;
-
             GlobalVariables.CombineImgMaxHeight += AlturaImagem;
             GlobalVariables.CombineImgMaxWidth += LarguraImagem;
 
-
-            TBAltura.Text = GlobalVariables.ImgMaxWidth.ToString();
-            TBLargura.Text = GlobalVariables.ImgMaxHeight.ToString();
-
             LAlturaComb.Content = GlobalVariables.CombineImgMaxHeight.ToString();
             LLarguraComb.Content = GlobalVariables.CombineImgMaxWidth.ToString();
+
+            return $"| H: {AlturaImagem} W: {LarguraImagem}";
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -124,7 +115,7 @@ namespace MergeImagesLogFast
                 return;
             }
 
-            string NomePadraoImagem = "Combined_";
+            string NomePadraoImagem = TBNomePadrao.Text;
 
             bool vertical = true;
 
@@ -211,28 +202,9 @@ namespace MergeImagesLogFast
             return images;
         }
 
-        private void RB_Vertical_Checked(object sender, RoutedEventArgs e)
+        private void BCalcularLote_Click(object sender, RoutedEventArgs e)
         {
-            DesabilitaTextBoxAlturaLargura(0);
-        }
 
-        private void RB_Horizontal_Checked(object sender, RoutedEventArgs e)
-        {
-            DesabilitaTextBoxAlturaLargura(1);
-        }
-
-        private void DesabilitaTextBoxAlturaLargura(int v)
-        {
-            if (v == 0)
-            {
-                TBAltura.IsEnabled = false;
-                TBLargura.IsEnabled = true;
-            }
-            else
-            {
-                TBAltura.IsEnabled = true;
-                TBLargura.IsEnabled = false;
-            }
         }
     }
 }
