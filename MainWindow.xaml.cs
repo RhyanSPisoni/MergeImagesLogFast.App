@@ -291,5 +291,12 @@ namespace MergeImagesLogFast
         {
             System.Diagnostics.Process.Start("explorer.exe", GlobalVariables.pathOutput);
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var donate = new Donate();
+            donate.Owner = this;
+            donate.Show();
+        }
     }
 }

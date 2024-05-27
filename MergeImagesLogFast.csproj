@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="github_logo.png" />
+    <None Remove="Image1.png" />
     <None Remove="logo.jpeg" />
   </ItemGroup>
 
@@ -18,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="github_logo.png" />
+    <Resource Include="Image1.png" />
     <Resource Include="logo.jpeg" />
   </ItemGroup>
 

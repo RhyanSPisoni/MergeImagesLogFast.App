@@ -21,6 +21,11 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
         <Grid Grid.Column="0" Name="LeftGrid" MaxWidth="360" Margin="0,5,0,5" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -134,6 +139,18 @@
 
             <Label Grid.Row="1" Content="Modelo Imagens Prontas" HorizontalAlignment="Center" Foreground="White"/>
             <ListView Name="LVModeloImagem" Grid.Row="2" Width="250" Background="#FF161C2A" BorderBrush="White" Foreground="White"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FF111827" Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Button Grid.Column="0" Width="65" Height="25" Content="Doação" HorizontalAlignment="Center" Click="Button_Click_1"/>
+            <Image  Grid.Column="1" Width="25" Height="25" Source="/github_logo.png" Stretch="Fill" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+
         </Grid>
     </Grid>
 </Window>
